@@ -1,0 +1,37 @@
+package com.udmurtenergo.gpstracker.database.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import com.udmurtenergo.gpstracker.database.entity.EntityLog
+import com.udmurtenergo.gpstracker.database.model.LogData
+import io.reactivex.Observable
+
+import java.util.ArrayList
+import java.util.Date
+
+@Dao
+abstract class LogDao {
+
+    fun insert(logData: LogData) {
+        insertEntityLog(EntityLog(logData))
+    }
+
+    fun getAll(): Observable<List<LogData>>{
+        return getEntityLogs().map { t -> entityLogToLogData(t) }
+    }
+
+    private fun entityLogToLogData(entityLogs: List<EntityLog>): List<LogData> {
+        val logs = ArrayList<LogData>(entityLogs.size)
+        for ((id, title, description, dateMillis) in entityLogs) {
+            logs.add(LogData(id, title, description, Date(dateMillis)))
+        }
+        return logs
+    }
+
+    @Insert
+    abstract fun insertEntityLog(entityLog: EntityLog)
+
+    @Query("SELECT * FROM Logs ORDER BY Logs.dateMillis DESC")
+    abstract fun getEntityLogs(): Observable<List<EntityLog>>
+}
