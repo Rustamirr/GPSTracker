@@ -15,6 +15,7 @@ import com.udmurtenergo.gpstracker.database.model.FullLocation
 import com.udmurtenergo.gpstracker.database.model.LocationData
 import com.udmurtenergo.gpstracker.database.model.Satellite
 import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
@@ -22,20 +23,14 @@ class GpsInteractor(
     private val googleApiClient: GoogleApiClient,
     private val locationRequest: LocationRequest) : GoogleApiClient.ConnectionCallbacks, LocationListener, GpsStatus.Listener {
 
-    private val locationManager: LocationManager = App.getInstance().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    private val locationManager = App.getInstance().getSystemService(Context.LOCATION_SERVICE) as LocationManager
     private lateinit var gpsStatus: GpsStatus
     private val locationSubject = PublishSubject.create<Location>()
     private val gpsStatusSubject = PublishSubject.create<GpsStatus>()
     private lateinit var fullLocationObservable: Observable<FullLocation>
 
     @SuppressLint("MissingPermission")
-    fun callLocationUpdates(
-        updateInterval: Int,
-        smallestDisplacement: Int,
-        minAccuracy: Int,
-        minSatellitesCount: Int,
-        minSnr: Int
-    ) {
+    fun callLocationUpdates(updateInterval: Int, smallestDisplacement: Int, minAccuracy: Int, minSatellitesCount: Int, minSnr: Int) {
         locationRequest.interval = (updateInterval * 1000).toLong()
         locationRequest.fastestInterval = (updateInterval * 1000).toLong()
         locationRequest.smallestDisplacement = smallestDisplacement.toFloat()
@@ -80,34 +75,29 @@ class GpsInteractor(
         gpsStatusSubject.onNext(gpsStatus)
     }
 
-    private fun initFullLocationObservable(
-        minAccuracy: Int,
-        minSatellitesCount: Int,
-        minSnr: Int
-    ): Observable<FullLocation> {
+    private fun initFullLocationObservable(minAccuracy: Int, minSatellitesCount: Int, minSnr: Int): Observable<FullLocation> {
         val locationObservable = locationSubject
-            .filter { location -> location.accuracy <= minAccuracy }
+            .filter {location -> location.accuracy <= minAccuracy }
 
         val snrObservable = gpsStatusSubject
             .map<List<Float>> { gpsStatus ->
-                val satellites = gpsStatus.satellites
                 val snrList = ArrayList<Float>()
-                for (satellite in satellites) {
-                    if (satellite.usedInFix() && satellite.snr >= minSnr) {
-                        snrList.add(satellite.snr)
+                gpsStatus.satellites.forEach {
+                    if (it.usedInFix() && it.snr >= minSnr) {
+                        snrList.add(it.snr)
                     }
                 }
                 snrList
             }.filter { list -> list.size >= minSatellitesCount }
 
-        return locationObservable.withLatestFrom<List<Float>?, FullLocation>(snrObservable) { location: Location, snrList: List<Float> ->
+        return locationObservable.withLatestFrom(snrObservable, BiFunction {location: Location, snrList: List<Float> ->
             val locationData = LocationData(location)
             val satellites = ArrayList<Satellite>()
             for (snr in snrList) {
                 satellites.add(Satellite(snr, locationData))
             }
             FullLocation(locationData, satellites)
-        }
+        })
     }
 
     fun observeLocation(): Observable<Location> {
@@ -118,7 +108,7 @@ class GpsInteractor(
         return gpsStatusSubject
     }
 
-    fun observeFullLocation(): Observable<FullLocation>? {
+    fun observeFullLocation(): Observable<FullLocation> {
         return fullLocationObservable
     }
 }
