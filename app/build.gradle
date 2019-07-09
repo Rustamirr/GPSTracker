@@ -48,19 +48,21 @@ dependencies {
     // Navigation
     implementation 'ru.terrakok.cicerone:cicerone:5.0.0'
 
+    // Preferences
+    implementation "androidx.preference:preference:1.1.0-beta01"
+
     // Gps, map
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
     // Network
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation "com.google.code.ksoap2-android:ksoap2-android:3.6.2"
 
     // RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-
+    //implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    //implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
+    
     // Dagger
     //implementation 'com.google.dagger:dagger-android-support:2.22.1'
     //annotationProcessor 'com.google.dagger:dagger-android-processor:2.22.1'

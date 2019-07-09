@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.interactor.gps
+/*package com.udmurtenergo.gpstracker.interactor.gps
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -22,11 +22,11 @@ class GpsInteractor(
     private val googleApiClient: GoogleApiClient,
     private val locationRequest: LocationRequest) : GoogleApiClient.ConnectionCallbacks, LocationListener, GpsStatus.Listener {
 
-    private var locationManager: LocationManager = App.instance.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    private val locationManager: LocationManager = App.instance.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     private lateinit var gpsStatus: GpsStatus
     private val locationSubject = PublishSubject.create<Location>()
     private val gpsStatusSubject = PublishSubject.create<GpsStatus>()
-    private var fullLocationObservable: Observable<FullLocation>? = null
+    private lateinit var fullLocationObservable: Observable<FullLocation>
 
     @SuppressLint("MissingPermission")
     fun callLocationUpdates(updateInterval: Int, smallestDisplacement: Int, minAccuracy: Int, minSatellitesCount: Int, minSnr: Int) {
@@ -90,7 +90,7 @@ class GpsInteractor(
                 snrList
             }.filter { list -> list.size >= minSatellitesCount }
 
-        return locationObservable.withLatestFrom<List<Float>, FullLocation>(snrObservable) { location, snrList ->
+        return locationObservable.withLatestFrom<List<Float>?, FullLocation>(snrObservable) { location: Location, snrList: List<Float> ->
             val locationData = LocationData(location)
             val satellites = ArrayList<Satellite>()
             for (snr in snrList) {
@@ -111,4 +111,4 @@ class GpsInteractor(
     fun observeFullLocation(): Observable<FullLocation>? {
         return fullLocationObservable
     }
-}
+}*/

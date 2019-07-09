@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreference
+        android:key="@string/key_boot_service"
+        android:title="@string/boot_service"
+        android:summary="@string/auto_start_service_after_reboot"
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"/>
+
+    <PreferenceCategory
+        android:title="@string/gps"
+        app:iconSpaceReserved="false">
+
+        <EditTextPreference
+            android:key="@string/key_gps_update_interval"
+            android:title="@string/gps_update_interval"
+            android:dialogTitle="@string/enter_gps_update_interval"
+            android:defaultValue="5"
+            app:iconSpaceReserved="false"/>
+
+        <EditTextPreference
+            android:key="@string/key_smallest_displacement"
+            android:title="@string/smallest_displacement"
+            android:dialogTitle="@string/enter_smallest_displacement"
+            android:defaultValue="0"
+            app:iconSpaceReserved="false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/gps_filter"
+        app:iconSpaceReserved="false">
+
+        <EditTextPreference
+            android:key="@string/key_min_accuracy"
+            android:title="@string/min_accuracy"
+            android:dialogTitle="@string/enter_min_accuracy"
+            android:defaultValue="50"
+            app:iconSpaceReserved="false"/>
+
+        <EditTextPreference
+            android:key="@string/key_min_satellites_count"
+            android:title="@string/min_satellites_count"
+            android:dialogTitle="@string/enter_min_satellites_count"
+            android:defaultValue="3"
+            app:iconSpaceReserved="false"/>
+
+        <ListPreference
+            android:key="@string/key_min_snr"
+            android:title="@string/min_snr"
+            android:entries="@array/satellites_snr_class"
+            android:entryValues="@array/satellites_snr_values"
+            android:dialogTitle="@string/select_min_satellites_snr"
+            android:defaultValue="25"
+            app:iconSpaceReserved="false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/network"
+        app:iconSpaceReserved="false">
+
+        <EditTextPreference
+            android:key="@string/key_server_ip"
+            android:title="@string/server_ip"
+            android:dialogTitle="@string/enter_server_ip"
+            android:defaultValue="81.4.248.141:5688"
+            app:iconSpaceReserved="false"/>
+
+        <EditTextPreference
+            android:key="@string/key_network_update_interval"
+            android:title="@string/network_update_interval"
+            android:dialogTitle="@string/enter_network_update_interval"
+            android:defaultValue="1"
+            app:iconSpaceReserved="false"/>
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

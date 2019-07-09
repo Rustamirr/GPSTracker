@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.interactor
+/*package com.udmurtenergo.gpstracker.interactor
 
 import com.udmurtenergo.gpstracker.App
 import com.udmurtenergo.gpstracker.R
@@ -115,4 +115,4 @@ class NetworkInteractor {
         private val SATELLITES_COUNT = "Satelites"
         private val SATELLITE_SNR = "L"
     }
-}
+}*/

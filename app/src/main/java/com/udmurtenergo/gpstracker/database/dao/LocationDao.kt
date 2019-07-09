@@ -19,11 +19,7 @@ abstract class LocationDao {
     open fun insert(fullLocation: FullLocation) {
         val id = insertEntityLocation(EntityLocation(fullLocation.locationData))
 
-        // Satellites
-        val entitySatellites = ArrayList<EntitySatellite>(fullLocation.satellites.size)
-        for (satellite in fullLocation.satellites) {
-            entitySatellites.add(EntitySatellite(satellite.snr, id))
-        }
+        val entitySatellites= fullLocation.satellites.map { EntitySatellite(it.snr, id) }
         insertEntitySatellites(entitySatellites)
     }
 
@@ -36,30 +32,21 @@ abstract class LocationDao {
     }
 
     fun getAllOnce(): Single<List<FullLocation>> {
-        return requestLocations().map { t -> requestLocationsToFullLocations(t) }
+        return requestLocations().map { t ->  requestLocationsToFullLocations(t) }
     }
 
-    private fun requestLocationsToFullLocations(requestLocations: List<RequestLocation>): List<FullLocation> {
-        val fullLocations = ArrayList<FullLocation>(requestLocations.size)
-        for (requestLocation in requestLocations) {
-            // Location
-            val entityLocation = requestLocation.entityLocation
+    private fun requestLocationsToFullLocations(requestLocations: List<RequestLocation>) =
+        requestLocations.map { createFullLocation(it.entityLocation, it.entitySatellites) }
 
-            val locationData = LocationData(
-                entityLocation.id, entityLocation.latitude,
-                entityLocation.longitude, Date(entityLocation.dateMillis), entityLocation.speed,
-                entityLocation.accuracy, entityLocation.altitude, entityLocation.bearing
-            )
+    private fun createFullLocation(entityLocation: EntityLocation, entitySatellites: List<EntitySatellite>): FullLocation {
+        val locationData = LocationData(
+            entityLocation.id, entityLocation.latitude,
+            entityLocation.longitude, Date(entityLocation.dateMillis), entityLocation.speed,
+            entityLocation.accuracy, entityLocation.altitude, entityLocation.bearing
+        )
+        val satellites = entitySatellites.map {Satellite(it.id, it.snr, locationData) }
 
-            // Satellites
-            val entitySatellites = requestLocation.entitySatellites
-            val satellites = ArrayList<Satellite>(entitySatellites.size)
-            for ((id, snr) in entitySatellites) {
-                satellites.add(Satellite(id, snr, locationData))
-            }
-            fullLocations.add(FullLocation(locationData, satellites))
-        }
-        return fullLocations
+        return FullLocation(locationData, satellites)
     }
 
     @Insert

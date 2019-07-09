@@ -21,13 +21,8 @@ abstract class LogDao {
         return getEntityLogs().map { t -> entityLogToLogData(t) }
     }
 
-    private fun entityLogToLogData(entityLogs: List<EntityLog>): List<LogData> {
-        val logs = ArrayList<LogData>(entityLogs.size)
-        for ((id, title, description, dateMillis) in entityLogs) {
-            logs.add(LogData(id, title, description, Date(dateMillis)))
-        }
-        return logs
-    }
+    private fun entityLogToLogData(entityLogs: List<EntityLog>) =
+        entityLogs.map { LogData(it.id, it.title, it.description, Date(it.dateMillis)) }
 
     @Insert
     abstract fun insertEntityLog(entityLog: EntityLog)
