@@ -1,4 +1,4 @@
-/*package com.udmurtenergo.gpstracker.interactor.gps
+package com.udmurtenergo.gpstracker.interactor.gps
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -22,14 +22,20 @@ class GpsInteractor(
     private val googleApiClient: GoogleApiClient,
     private val locationRequest: LocationRequest) : GoogleApiClient.ConnectionCallbacks, LocationListener, GpsStatus.Listener {
 
-    private val locationManager: LocationManager = App.instance.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    private val locationManager: LocationManager = App.getInstance().getSystemService(Context.LOCATION_SERVICE) as LocationManager
     private lateinit var gpsStatus: GpsStatus
     private val locationSubject = PublishSubject.create<Location>()
     private val gpsStatusSubject = PublishSubject.create<GpsStatus>()
     private lateinit var fullLocationObservable: Observable<FullLocation>
 
     @SuppressLint("MissingPermission")
-    fun callLocationUpdates(updateInterval: Int, smallestDisplacement: Int, minAccuracy: Int, minSatellitesCount: Int, minSnr: Int) {
+    fun callLocationUpdates(
+        updateInterval: Int,
+        smallestDisplacement: Int,
+        minAccuracy: Int,
+        minSatellitesCount: Int,
+        minSnr: Int
+    ) {
         locationRequest.interval = (updateInterval * 1000).toLong()
         locationRequest.fastestInterval = (updateInterval * 1000).toLong()
         locationRequest.smallestDisplacement = smallestDisplacement.toFloat()
@@ -74,7 +80,11 @@ class GpsInteractor(
         gpsStatusSubject.onNext(gpsStatus)
     }
 
-    private fun initFullLocationObservable(minAccuracy: Int, minSatellitesCount: Int, minSnr: Int): Observable<FullLocation> {
+    private fun initFullLocationObservable(
+        minAccuracy: Int,
+        minSatellitesCount: Int,
+        minSnr: Int
+    ): Observable<FullLocation> {
         val locationObservable = locationSubject
             .filter { location -> location.accuracy <= minAccuracy }
 
@@ -111,4 +121,4 @@ class GpsInteractor(
     fun observeFullLocation(): Observable<FullLocation>? {
         return fullLocationObservable
     }
-}*/
+}
