@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.log_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.log_fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -70,4 +70,4 @@ class LogFragment : BaseFragment(), LogFragmentContract.View {
             return LogFragment()
         }
     }
-}
+}*/

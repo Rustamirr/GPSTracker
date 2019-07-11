@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.location_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.location_fragment
 
 interface LocationFragmentContract {
 
@@ -13,4 +13,4 @@ interface LocationFragmentContract {
         fun onStop()
         fun onDestroyView()
     }
-}
+}*/

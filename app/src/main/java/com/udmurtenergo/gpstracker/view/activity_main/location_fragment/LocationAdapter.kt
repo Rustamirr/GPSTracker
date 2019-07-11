@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.location_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.location_fragment
 
 import android.view.LayoutInflater
 import android.view.View
@@ -73,4 +73,4 @@ class LocationAdapter : RecyclerView.Adapter<LocationAdapter.ViewHolder>() {
             textView!!.setText(text)
         }
     }
-}
+}*/

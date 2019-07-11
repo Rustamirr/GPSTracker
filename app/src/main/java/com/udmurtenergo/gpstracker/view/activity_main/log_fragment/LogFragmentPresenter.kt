@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.log_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.log_fragment
 
 import androidx.lifecycle.ViewModel
 import com.udmurtenergo.gpstracker.App
@@ -66,4 +66,4 @@ class LogFragmentPresenter : ViewModel(), LogFragmentContract.Presenter {
             view!!.setTitle(title)
         }
     }
-}
+}*/

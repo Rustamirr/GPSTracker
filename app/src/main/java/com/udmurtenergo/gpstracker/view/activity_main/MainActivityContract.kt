@@ -7,9 +7,8 @@ import ru.terrakok.cicerone.Screen
 interface MainActivityContract {
 
     interface View {
-        val navigator: Navigator
+        var navigator: Navigator
     }
-
     interface Presenter {
         fun onResume(view: View)
         fun onPause()

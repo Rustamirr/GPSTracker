@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.map_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.map_fragment
 
 import androidx.lifecycle.ViewModel
 import com.udmurtenergo.gpstracker.App
@@ -72,4 +72,4 @@ class MapFragmentPresenter : ViewModel(), MapFragmentContract.Presenter {
             view!!.setCurrentLocationEnabled(granted)
         }
     }
-}
+}*/

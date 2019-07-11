@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.main_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.main_fragment
 
 import android.Manifest
 import android.content.ComponentName
@@ -201,4 +201,4 @@ class MainFragmentPresenter : ViewModel(), MainFragmentContract.Presenter, Servi
         }
     }
 
-}
+}*/

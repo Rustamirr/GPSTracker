@@ -11,7 +11,7 @@ import dagger.Provides
 @Module
 class GpsModule {
     @Provides
-    fun provideGoogleApiClient(context: Context) =
+    fun provideGoogleApiClient(context: Context): GoogleApiClient =
         GoogleApiClient.Builder(context)
             .addApi(LocationServices.API)
             .build()
@@ -20,6 +20,6 @@ class GpsModule {
     fun provideLocationRequest(): LocationRequest = LocationRequest()
 
     @Provides
-    fun provideGpsInteractor(googleApiClient: GoogleApiClient, locationRequest: LocationRequest) =
+    fun provideGpsInteractor(googleApiClient: GoogleApiClient, locationRequest: LocationRequest): GpsInteractor =
         GpsInteractor(googleApiClient, locationRequest)
 }

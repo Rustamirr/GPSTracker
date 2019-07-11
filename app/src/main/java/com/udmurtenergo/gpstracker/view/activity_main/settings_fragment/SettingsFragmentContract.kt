@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.settings_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.settings_fragment
 
 interface SettingsFragmentContract {
 
@@ -13,4 +13,4 @@ interface SettingsFragmentContract {
         fun onDestroy()
         fun onSharedPreferenceChanged()
     }
-}
+}*/

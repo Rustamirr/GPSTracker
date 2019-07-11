@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.location_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.location_fragment
 
 import androidx.lifecycle.ViewModel
 import com.udmurtenergo.gpstracker.App
@@ -66,4 +66,4 @@ class LocationFragmentPresenter : ViewModel(), LocationFragmentContract.Presente
             view!!.setTitle(title)
         }
     }
-}
+}*/

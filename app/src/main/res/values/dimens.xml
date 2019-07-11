@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="content_padding">8dp</dimen>
+    <dimen name="cardview_margin">1dp</dimen>
+</resources>

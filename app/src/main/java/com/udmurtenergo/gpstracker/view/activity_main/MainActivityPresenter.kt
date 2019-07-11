@@ -14,7 +14,7 @@ class MainActivityPresenter : ViewModel(), MainActivityContract.Presenter {
     private var bottomNavigationViewCurrentItemId: Int = 0
 
     init {
-        cicerone = App.getInstance().getInjector().getMainActivityComponent().getCicerone()
+        cicerone = App.instance.injector.getMainActivityComponentInstance().getCicerone()
         bottomNavigationViewCurrentItemId = R.id.bottom_bar_dashboard
     }
 

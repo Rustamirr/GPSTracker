@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.settings_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.settings_fragment
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -65,4 +65,4 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsFragmentContract.Vi
             return SettingsFragment()
         }
     }
-}
+}*/

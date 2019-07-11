@@ -7,5 +7,5 @@ import dagger.Provides
 @Module
 class UtilsModule {
     @Provides
-    fun provideAlarmTimer() = AlarmTimer()
+    fun provideAlarmTimer(): AlarmTimer = AlarmTimer()
 }

@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.main_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.main_fragment
 
 interface MainFragmentContract {
 
@@ -21,4 +21,4 @@ interface MainFragmentContract {
         fun startStopService()
         fun onRequestPermissionsResult(granted: Boolean)
     }
-}
+}*/

@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.settings_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.settings_fragment
 
 import androidx.lifecycle.ViewModel
 import com.udmurtenergo.gpstracker.App
@@ -85,4 +85,4 @@ class SettingsFragmentPresenter : ViewModel(), SettingsFragmentContract.Presente
     override fun onSharedPreferenceChanged() {
         loadSettings()
     }
-}
+}*/

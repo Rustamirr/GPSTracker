@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.map_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.map_fragment
 
 import com.udmurtenergo.gpstracker.database.model.FullLocation
 
@@ -27,4 +27,4 @@ interface MapFragmentContract {
         fun onMapReady()
         fun onGpsRequestPermissionsResult(granted: Boolean)
     }
-}
+}*/

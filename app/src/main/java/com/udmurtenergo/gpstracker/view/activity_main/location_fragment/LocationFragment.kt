@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.location_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.location_fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -70,4 +70,4 @@ class LocationFragment : BaseFragment(), LocationFragmentContract.View {
             return LocationFragment()
         }
     }
-}
+}*/

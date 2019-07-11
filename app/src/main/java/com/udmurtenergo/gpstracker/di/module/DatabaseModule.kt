@@ -17,16 +17,16 @@ class DatabaseModule(private val databaseName: String) {
 
     @Singleton
     @Provides
-    fun provideDatabase(context: Context) =
+    fun provideDatabase(context: Context): AppDatabase =
         Room.databaseBuilder(context, AppDatabase::class.java, databaseName)
             //.allowMainThreadQueries()
             .build()
 
     @Singleton
     @Provides
-    fun provideRepositoryLocation(database: AppDatabase) = RepositoryLocationImpl(database.getLocationDao())
+    fun provideRepositoryLocation(database: AppDatabase): RepositoryLocation = RepositoryLocationImpl(database.getLocationDao())
 
     @Singleton
     @Provides
-    fun provideRepositoryLog(database: AppDatabase) = RepositoryLogImpl(database.getLogDao())
+    fun provideRepositoryLog(database: AppDatabase): RepositoryLog = RepositoryLogImpl(database.getLogDao())
 }

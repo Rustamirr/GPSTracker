@@ -17,12 +17,12 @@ import dagger.Provides
 class ServiceModule(private val service: ServiceContract.Service) {
 
     @Provides
-    fun provideAppNotification() = ServiceNotification(service)
+    fun provideAppNotification(): ServiceNotification = ServiceNotification(service)
 
     @Provides
     fun provideController(context: Context, repositoryLocation: RepositoryLocation, repositoryLog: RepositoryLog,
         gpsInteractor: GpsInteractor, networkInteractor: NetworkInteractor, preferenceInteractor: PreferenceInteractor,
-        alarmTimer: AlarmTimer, serviceNotification: ServiceNotification) =
+        alarmTimer: AlarmTimer, serviceNotification: ServiceNotification): ServiceContract.Controller =
 
         ServiceController(context, service, repositoryLocation, repositoryLog, gpsInteractor, networkInteractor,
             preferenceInteractor, alarmTimer, serviceNotification)

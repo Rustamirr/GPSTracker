@@ -11,9 +11,9 @@ import javax.inject.Singleton
 class AppModule(private val context: Context) {
 
     @Provides
-    fun provideContext() = context
+    fun provideContext(): Context = context
 
     @Singleton
     @Provides
-    fun providePreferenceInteractor(context: Context) = PreferenceInteractor(context)
+    fun providePreferenceInteractor(context: Context): PreferenceInteractor = PreferenceInteractor(context)
 }

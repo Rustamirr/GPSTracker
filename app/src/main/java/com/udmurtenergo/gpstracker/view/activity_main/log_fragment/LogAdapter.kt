@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.log_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.log_fragment
 
 import android.view.LayoutInflater
 import android.view.View
@@ -55,4 +55,4 @@ class LogAdapter : RecyclerView.Adapter<LogAdapter.ViewHolder>() {
             tvLog!!.text = text
         }
     }
-}
+}*/

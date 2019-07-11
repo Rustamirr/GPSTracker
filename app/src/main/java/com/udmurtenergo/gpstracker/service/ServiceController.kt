@@ -69,7 +69,7 @@ class ServiceController(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { fullLocation -> service?.onFilteredLocationChanged(fullLocation)} )
 
-        networkInteractor.initialize(service!!.deviceImei, settings.serverIp)
+        networkInteractor.initialize(service!!.getDeviceImei(), settings.serverIp)
         alarmTimer.turnOn(this, settings.networkUpdateInterval)
         serviceNotification.show()
     }

@@ -1,4 +1,4 @@
-package com.udmurtenergo.gpstracker.view.activity_main.map_fragment
+/*package com.udmurtenergo.gpstracker.view.activity_main.map_fragment
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -133,4 +133,4 @@ class MapFragment : SupportMapFragment(), MapFragmentContract.View, OnMapReadyCa
             return MapFragment()
         }
     }
-}
+}*/

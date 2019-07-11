@@ -7,5 +7,5 @@ import dagger.Provides
 @Module
 class NetworkModule {
     @Provides
-    fun provideNetworkInteractor() = NetworkInteractor()
+    fun provideNetworkInteractor(): NetworkInteractor = NetworkInteractor()
 }

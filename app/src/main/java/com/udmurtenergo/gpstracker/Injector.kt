@@ -1,34 +1,37 @@
 package com.udmurtenergo.gpstracker
 
-class Injector internal constructor(app: App) {
-    //lateinit var appComponent: AppComponent
-    //lateinit var mainActivityComponent: MainActivityComponent
+import com.udmurtenergo.gpstracker.di.component.AppComponent
+import com.udmurtenergo.gpstracker.di.component.DaggerAppComponent
+import com.udmurtenergo.gpstracker.di.component.MainActivityComponent
+import com.udmurtenergo.gpstracker.di.component.ServiceComponent
+import com.udmurtenergo.gpstracker.di.module.AppModule
+import com.udmurtenergo.gpstracker.di.module.DatabaseModule
+import com.udmurtenergo.gpstracker.di.module.ServiceModule
 
-    companion object {
-        private val DATABASE_NAME = "GpsTracker"
-    }
+class Injector(app: App){
+    private val databaseName = "GpsTracker"
+    val appComponent: AppComponent
+    var mainActivityComponent: MainActivityComponent? = null
 
-    /*init {
+    init {
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(app))
-            .databaseModule(DatabaseModule(DATABASE_NAME))
+            .databaseModule(DatabaseModule(databaseName))
             .build()
     }
 
     // Every time create new service
-    fun getServiceComponent(serviceModule: ServiceModule): ServiceComponent {
-        return appComponent.getServiceComponent(serviceModule)
-    }
+    fun getServiceComponentInstance(serviceModule: ServiceModule): ServiceComponent = appComponent.getServiceComponent(serviceModule)
 
     // Main activity
-    fun getMainActivityComponent(): MainActivityComponent {
+    fun getMainActivityComponentInstance(): MainActivityComponent {
         if (mainActivityComponent == null) {
             mainActivityComponent = appComponent.getMainActivityComponent()
         }
-        return mainActivityComponent
+        return mainActivityComponent!!
     }
 
     fun clearMainActivityComponent() {
         mainActivityComponent = null
-    }  */
+    }
 }

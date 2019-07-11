@@ -9,7 +9,5 @@ open class BaseFragment : Fragment() {
      * @return true - действие обработано и не требуется дальнейшая обработка
      * false - действие не обработано, обработка будет выполнена по умолчанию активностью
      */
-    fun onBackPressed(): Boolean {
-        return false
-    }
+    fun onBackPressed(): Boolean = false
 }
