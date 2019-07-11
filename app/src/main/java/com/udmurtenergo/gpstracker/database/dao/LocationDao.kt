@@ -15,7 +15,7 @@ import java.util.Date
 abstract class LocationDao {
 
     @Transaction
-    fun insert(fullLocation: FullLocation) {
+    open fun insert(fullLocation: FullLocation) {
         val id = insertEntityLocation(EntityLocation(fullLocation.locationData))
         val entitySatellites= fullLocation.satellites.map { EntitySatellite(it.snr, id) }
         insertEntitySatellites(entitySatellites)

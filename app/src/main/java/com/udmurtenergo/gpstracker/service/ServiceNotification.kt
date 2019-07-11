@@ -1,6 +1,5 @@
 package com.udmurtenergo.gpstracker.service
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
@@ -12,10 +11,10 @@ import com.udmurtenergo.gpstracker.R
 
 class ServiceNotification(private val service: ServiceContract.Service) {
 
-    private val notificationManager: NotificationManager = App.getInstance().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    private val notificationManager: NotificationManager = App.instance.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     fun show() {
-        val text = App.getInstance().getString(R.string.app_name)
+        val text = App.instance.getString(R.string.app_name)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, text, importance)
@@ -36,7 +35,7 @@ class ServiceNotification(private val service: ServiceContract.Service) {
     }
 
     companion object {
-        private val NOTIFICATION_CHANNEL_ID = "5198"
-        private val NOTIFICATION_ID = 5198
+        private const val NOTIFICATION_CHANNEL_ID = "5198"
+        private const val NOTIFICATION_ID = 5198
     }
 }

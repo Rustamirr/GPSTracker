@@ -2,7 +2,6 @@ package com.udmurtenergo.gpstracker.service
 
 import android.content.Context
 import com.udmurtenergo.gpstracker.R
-import com.udmurtenergo.gpstracker.database.model.FullLocation
 import com.udmurtenergo.gpstracker.database.model.LogData
 import com.udmurtenergo.gpstracker.interactor.NetworkInteractor
 import com.udmurtenergo.gpstracker.interactor.PreferenceInteractor
@@ -12,14 +11,11 @@ import com.udmurtenergo.gpstracker.repository.RepositoryLog
 import com.udmurtenergo.gpstracker.utils.AlarmTimer
 import com.udmurtenergo.gpstracker.utils.Settings
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.BiConsumer
 import io.reactivex.functions.Consumer
-import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
-import java.util.Date
+import java.util.*
 
 class ServiceController(
     private val context: Context,
@@ -99,6 +95,7 @@ class ServiceController(
                     )
                 }
                 .doOnNext { fullLocation -> repositoryLocation.delete(fullLocation) }
+                .subscribeOn(Schedulers.io())
                 .subscribe({ }, { }))
         }
     }

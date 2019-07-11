@@ -1,0 +1,69 @@
+package com.udmurtenergo.gpstracker.view.activity_main
+
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
+import butterknife.BindView
+import butterknife.ButterKnife
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.udmurtenergo.gpstracker.R
+import com.udmurtenergo.gpstracker.utils.Screens
+import com.udmurtenergo.gpstracker.view.BaseFragment
+import ru.terrakok.cicerone.Navigator
+import ru.terrakok.cicerone.android.support.SupportAppNavigator
+
+class MainActivity : AppCompatActivity(), MainActivityContract.View {
+    @BindView(R.id.activity_main_toolbar)
+    var toolbar: Toolbar? = null
+
+    @BindView(R.id.activity_main_bottom_navigation_view)
+    var bottomNavigationView: BottomNavigationView? = null
+    override var navigator: Navigator? = null
+        private set
+    private var presenter: MainActivityContract.Presenter? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        ButterKnife.bind(this)
+        setSupportActionBar(toolbar)
+
+        navigator = SupportAppNavigator(this, R.id.activity_main_frame_layout)
+        presenter = ViewModelProviders.of(this).get(MainActivityPresenter::class.java)
+        bottomNavigationView!!.setOnNavigationItemSelectedListener({ menuItem ->
+            presenter!!.bottomNavigationItemSelected(menuItem)
+            true
+        })
+        if (savedInstanceState == null) {
+            presenter!!.navigateTo(Screens.MainScreen())
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter!!.onResume(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter!!.onPause()
+    }
+
+    override fun onBackPressed() {
+        // Предоставляем обработку back текущему фрагменту
+        val fragment = supportFragmentManager.findFragmentById(R.id.activity_main_frame_layout)
+        if (fragment is BaseFragment) {
+            if (fragment.onBackPressed()) {
+                return
+            }
+        }
+        super.onBackPressed()
+    }
+
+    // Hide launch_screen screen
+    override fun setTheme(resId: Int) {
+        super.setTheme(R.style.AppTheme)
+    }
+}

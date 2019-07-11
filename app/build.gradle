@@ -19,6 +19,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -36,34 +40,32 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha01'
 
     // ORM Room
-    implementation "androidx.room:room-runtime:2.1.0"
-    implementation "androidx.room:room-rxjava2:2.1.0"
-    kapt "androidx.room:room-compiler:2.1.0"
+    implementation 'androidx.room:room-runtime:2.1.0'
+    implementation 'androidx.room:room-rxjava2:2.1.0'
+    kapt 'androidx.room:room-compiler:2.1.0'
 
     // Butter knife
-    implementation "com.jakewharton:butterknife:10.1.0"
-    kapt "com.jakewharton:butterknife-compiler:10.1.0"
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    kapt 'com.jakewharton:butterknife-compiler:10.1.0'
 
     // Navigation
     implementation 'ru.terrakok.cicerone:cicerone:5.0.0'
 
     // Preferences
-    implementation "androidx.preference:preference:1.1.0-rc01"
+    implementation 'androidx.preference:preference:1.1.0-rc01'
 
     // Gps, map
-    implementation "com.google.android.gms:play-services-location:17.0.0"
-    implementation "com.google.android.gms:play-services-maps:17.0.0"
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
     // Network
-    implementation "com.google.code.ksoap2-android:ksoap2-android:3.6.2"
+    implementation 'com.google.code.ksoap2-android:ksoap2-android:3.6.2'
 
     // RxJava
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
     
     // Dagger
-    //implementation 'com.google.dagger:dagger-android-support:2.22.1'
-    //annotationProcessor 'com.google.dagger:dagger-android-processor:2.22.1'
-    //annotationProcessor 'com.google.dagger:dagger-compiler:2.22.1'
-    //implementation 'com.google.android.material:material:1.1.0-alpha07'
+    implementation 'com.google.dagger:dagger-android:2.23.2'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.22.1'
 }

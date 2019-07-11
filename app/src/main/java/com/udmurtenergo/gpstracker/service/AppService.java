@@ -1,4 +1,4 @@
-/*package com.udmurtenergo.gpstracker.service;
+package com.udmurtenergo.gpstracker.service;
 
 import android.annotation.SuppressLint;
 import android.app.Service;
@@ -100,4 +100,4 @@ public class AppService extends Service implements ServiceContract.Service {
             listener.onFilteredLocationChanged(fullLocation);
         }
     }
-}*/
+}
