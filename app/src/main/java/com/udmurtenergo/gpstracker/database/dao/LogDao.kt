@@ -6,8 +6,6 @@ import androidx.room.Query
 import com.udmurtenergo.gpstracker.database.entity.EntityLog
 import com.udmurtenergo.gpstracker.database.model.LogData
 import io.reactivex.Observable
-
-import java.util.ArrayList
 import java.util.Date
 
 @Dao
@@ -18,7 +16,7 @@ abstract class LogDao {
     }
 
     fun getAll(): Observable<List<LogData>>{
-        return getEntityLogs().map { t -> entityLogToLogData(t) }
+        return getEntityLogsDesc().map (this::entityLogToLogData)
     }
 
     private fun entityLogToLogData(entityLogs: List<EntityLog>) =
@@ -28,5 +26,5 @@ abstract class LogDao {
     abstract fun insertEntityLog(entityLog: EntityLog)
 
     @Query("SELECT * FROM Logs ORDER BY Logs.dateMillis DESC")
-    abstract fun getEntityLogs(): Observable<List<EntityLog>>
+    abstract fun getEntityLogsDesc(): Observable<List<EntityLog>>
 }

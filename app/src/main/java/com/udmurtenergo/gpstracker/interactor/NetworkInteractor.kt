@@ -1,31 +1,51 @@
-/*package com.udmurtenergo.gpstracker.interactor
+package com.udmurtenergo.gpstracker.interactor
 
 import com.udmurtenergo.gpstracker.App
 import com.udmurtenergo.gpstracker.R
 import com.udmurtenergo.gpstracker.database.model.FullLocation
-import com.udmurtenergo.gpstracker.database.model.LocationData
-import com.udmurtenergo.gpstracker.database.model.Satellite
 import com.udmurtenergo.gpstracker.utils.SSLConection
 import org.ksoap2.SoapEnvelope
 import org.ksoap2.serialization.SoapObject
 import org.ksoap2.serialization.SoapSerializationEnvelope
 import org.ksoap2.transport.HttpTransportSE
-
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 class NetworkInteractor {
-    private var imei: String? = null
-    private var url: String? = null
+    private lateinit var imei: String
+    private lateinit var url: String
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS ZZZZZ", Locale.US)
+
+    companion object {
+        private const val NAMESPACE = "http://tempuri.org/"
+        private const val ACTION = "urn:testIntf-Iobserv#PUTDB"
+        private const val METHOD_NAME = "PUTDB_ShortF"
+        private const val FIX_SATELLITES = 20
+
+        private const val IMEI = "IMEI"
+        private const val LATITUDE = "Latitude"
+        private const val LONGITUDE = "Longitude"
+        private const val ACCURACY = "Accuracy"
+        private const val SPEED = "Speed"
+        private const val ALTITUDE = "Altitude"
+        private const val BEARING = "Bearing"
+        private const val TIME = "TimeZ"
+        private const val TIME_SEND = "TimeSendZ"
+        private const val LEVEL_OF_CHARGE = "LevelOfCharge"
+        private const val GSM_CLASS = "BondType"
+        private const val GSM_ASU = "BondLevel"
+        private const val SATELLITES_COUNT = "Satelites"
+        private const val SATELLITE_SNR = "L"
+
+        private const val SUCCESSFUL = "1"
+        private const val NOT_FOUND_IMEI = "0"
+    }
 
     fun initialize(imei: String, serverIp: String) {
         this.imei = imei
         url = "https://$serverIp/soap/Iobserv"
     }
 
-    @Throws(Exception::class)
     fun sendData(fullLocation: FullLocation, sendTime: Date) {
         val request = SoapObject(NAMESPACE, METHOD_NAME)
 
@@ -67,52 +87,16 @@ class NetworkInteractor {
 
         val httpTransport = HttpTransportSE(url)
         SSLConection.allowAllSSL() // Отключает проверку сертификата
-
         httpTransport.call(ACTION, envelope)
+
         val response = envelope.response
-        if (response != null) {
-            if (response is SoapObject) {
-                val returnProperty = response.getProperty("return").toString()
-                when (returnProperty) {
-                    NetworkResponse.NOT_FOUND_IMEI -> {
-                        throw Exception(App.getInstance().getString(R.string.error_not_found_imei))
-                    }
+        when (response) {
+            is SoapObject -> {
+                when (response.getProperty("return").toString()) {
+                    NOT_FOUND_IMEI -> throw Exception(App.instance.getString(R.string.error_not_found_imei))
                 }
-            } else {
-                throw Exception(
-                    App.getInstance().getString(R.string.error_soap_fault_response) +
-                            ": " + response
-                )
             }
-        } else {
-            throw Exception(App.getInstance().getString(R.string.error_soap_null_respose))
+            else -> throw Exception("{App.instance.getString(R.string.error_soap_fault_response)}: $response")
         }
     }
-
-    private object NetworkResponse {
-        private val SUCCESSFUL = "1"
-        private val NOT_FOUND_IMEI = "0"
-    }
-
-    companion object {
-        private val NAMESPACE = "http://tempuri.org/"
-        private val ACTION = "urn:testIntf-Iobserv#PUTDB"
-        private val METHOD_NAME = "PUTDB_ShortF"
-        private val FIX_SATELLITES = 20
-
-        private val IMEI = "IMEI"
-        private val LATITUDE = "Latitude"
-        private val LONGITUDE = "Longitude"
-        private val ACCURACY = "Accuracy"
-        private val SPEED = "Speed"
-        private val ALTITUDE = "Altitude"
-        private val BEARING = "Bearing"
-        private val TIME = "TimeZ"
-        private val TIME_SEND = "TimeSendZ"
-        private val LEVEL_OF_CHARGE = "LevelOfCharge"
-        private val GSM_CLASS = "BondType"
-        private val GSM_ASU = "BondLevel"
-        private val SATELLITES_COUNT = "Satelites"
-        private val SATELLITE_SNR = "L"
-    }
-}*/
+}

@@ -17,13 +17,13 @@ import com.udmurtenergo.gpstracker.database.model.Satellite
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.PublishSubject
-import java.util.ArrayList
+import java.util.*
 
 class GpsInteractor(
     private val googleApiClient: GoogleApiClient,
-    private val locationRequest: LocationRequest) : GoogleApiClient.ConnectionCallbacks, LocationListener, GpsStatus.Listener {
+    private val locationRequest: LocationRequest): GoogleApiClient.ConnectionCallbacks, LocationListener, GpsStatus.Listener {
 
-    private val locationManager = App.getInstance().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    private val locationManager = App.instance.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     private lateinit var gpsStatus: GpsStatus
     private val locationSubject = PublishSubject.create<Location>()
     private val gpsStatusSubject = PublishSubject.create<GpsStatus>()
@@ -77,10 +77,10 @@ class GpsInteractor(
 
     private fun initFullLocationObservable(minAccuracy: Int, minSatellitesCount: Int, minSnr: Int): Observable<FullLocation> {
         val locationObservable = locationSubject
-            .filter {location -> location.accuracy <= minAccuracy }
+            .filter { location -> location.accuracy <= minAccuracy }
 
         val snrObservable = gpsStatusSubject
-            .map<List<Float>> { gpsStatus ->
+            .map { gpsStatus ->
                 val snrList = ArrayList<Float>()
                 gpsStatus.satellites.forEach {
                     if (it.usedInFix() && it.snr >= minSnr) {
@@ -92,10 +92,7 @@ class GpsInteractor(
 
         return locationObservable.withLatestFrom(snrObservable, BiFunction {location: Location, snrList: List<Float> ->
             val locationData = LocationData(location)
-            val satellites = ArrayList<Satellite>()
-            for (snr in snrList) {
-                satellites.add(Satellite(snr, locationData))
-            }
+            val satellites = snrList.map{ Satellite(it, locationData) }
             FullLocation(locationData, satellites)
         })
     }

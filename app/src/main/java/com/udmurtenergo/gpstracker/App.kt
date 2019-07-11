@@ -4,10 +4,11 @@ import android.app.Application
 
 class App : Application() {
     lateinit var injector: Injector
+    private set
 
     companion object {
-        private lateinit var instance: App
-        fun getInstance() = instance
+        lateinit var instance: App
+        private set
     }
 
     override fun onCreate() {
