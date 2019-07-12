@@ -10,7 +10,10 @@ import com.udmurtenergo.gpstracker.App
 import com.udmurtenergo.gpstracker.R
 
 class ServiceNotification(private val service: ServiceContract.Service) {
-
+    companion object {
+        private const val NOTIFICATION_CHANNEL_ID = "5198"
+        private const val NOTIFICATION_ID = 5198
+    }
     private val notificationManager: NotificationManager = App.instance.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     fun show() {
@@ -32,10 +35,5 @@ class ServiceNotification(private val service: ServiceContract.Service) {
 
     fun hide() {
         notificationManager.cancel(NOTIFICATION_ID)
-    }
-
-    companion object {
-        private const val NOTIFICATION_CHANNEL_ID = "5198"
-        private const val NOTIFICATION_ID = 5198
     }
 }

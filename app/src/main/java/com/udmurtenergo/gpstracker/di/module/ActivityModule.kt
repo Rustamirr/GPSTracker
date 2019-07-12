@@ -10,7 +10,6 @@ import ru.terrakok.cicerone.Router
 
 @Module
 class ActivityModule {
-
     @ActivityScope
     @Provides
     fun provideCicerone(): Cicerone<Router> = Cicerone.create()

@@ -21,7 +21,8 @@ class Injector(app: App){
     }
 
     // Every time create new service
-    fun getServiceComponentInstance(serviceModule: ServiceModule): ServiceComponent = appComponent.getServiceComponent(serviceModule)
+    fun getServiceComponentInstance(serviceModule: ServiceModule): ServiceComponent =
+        appComponent.getServiceComponent(serviceModule)
 
     // Main activity
     fun getMainActivityComponentInstance(): MainActivityComponent {

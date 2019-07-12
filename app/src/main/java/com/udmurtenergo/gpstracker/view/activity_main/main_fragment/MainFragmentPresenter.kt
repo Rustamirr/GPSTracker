@@ -183,5 +183,4 @@ class MainFragmentPresenter : ViewModel(), MainFragmentContract.Presenter, Servi
             view?.setSwitchServiceChecked(false)
         }
     }
-
 }

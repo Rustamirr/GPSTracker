@@ -27,7 +27,6 @@ class MainFragment : BaseFragment(), MainFragmentContract.View {
 
         fun newInstance() = MainFragment()
     }
-
     @BindView(R.id.fragment_main_chronometer)
     lateinit var chronometer: Chronometer
 

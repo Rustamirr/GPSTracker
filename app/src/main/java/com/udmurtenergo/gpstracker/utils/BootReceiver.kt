@@ -19,8 +19,7 @@ class BootReceiver : BroadcastReceiver() {
         App.instance.injector.appComponent.getPreferenceInteractor().load()
             .doOnError { throwable ->
                 App.instance.injector.appComponent.getRepositoryLog().insert(
-                    LogData(App.instance.resources.getString(R.string.error_to_read_settings),
-                        throwable.message!!, Date()))
+                    LogData(App.instance.resources.getString(R.string.error_to_read_settings), throwable.message!!, Date()))
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

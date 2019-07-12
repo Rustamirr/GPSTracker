@@ -5,10 +5,12 @@ import androidx.lifecycle.ViewModel
 import com.udmurtenergo.gpstracker.App
 import com.udmurtenergo.gpstracker.R
 import com.udmurtenergo.gpstracker.utils.Screens
+import ru.terrakok.cicerone.Cicerone
+import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.Screen
 
 class MainActivityPresenter : ViewModel(), MainActivityContract.Presenter {
-    private val cicerone = App.instance.injector.getMainActivityComponentInstance().getCicerone()
+    private val cicerone: Cicerone<Router> = App.instance.injector.getMainActivityComponentInstance().getCicerone()
     private var bottomNavigationViewCurrentItemId = R.id.bottom_bar_dashboard
 
     override fun onResume(view: MainActivityContract.View) {

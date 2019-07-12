@@ -20,8 +20,8 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     @BindView(R.id.activity_main_bottom_navigation_view)
     lateinit var bottomNavigationView: BottomNavigationView
 
-    private lateinit var presenter: MainActivityContract.Presenter
     override lateinit var navigator: Navigator
+    private lateinit var presenter: MainActivityContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

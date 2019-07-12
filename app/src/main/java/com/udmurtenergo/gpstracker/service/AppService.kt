@@ -7,7 +7,6 @@ import android.content.Intent
 import android.location.GpsStatus
 import android.location.Location
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Binder
 import android.os.IBinder
 import android.telephony.TelephonyManager
@@ -15,27 +14,26 @@ import com.udmurtenergo.gpstracker.App
 import com.udmurtenergo.gpstracker.database.model.FullLocation
 import com.udmurtenergo.gpstracker.di.module.ServiceModule
 import com.udmurtenergo.gpstracker.interactor.gps.GpsListener
-
 import javax.inject.Inject
 
 class AppService : Service(), ServiceContract.Service {
     @Inject
     lateinit var controller: ServiceContract.Controller
     private val binder = ServiceBinder()
-    private lateinit var connectivityManager: ConnectivityManager
-    private lateinit var telephonyManager: TelephonyManager
+    private val connectivityManager = App.instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private val telephonyManager = App.instance.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
     private var listener: GpsListener? = null // presenter
 
     override fun onCreate() {
         super.onCreate()
-        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        App.instance.injector.getServiceComponentInstance(ServiceModule(this)).inject(this)
+        App.instance.injector.getServiceComponentInstance(
+            ServiceModule(this))
+            .inject(this)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         controller.onStartCommand()
-        return Service.START_STICKY // Служба будет перезапущена при нехватке памяти
+        return START_STICKY // Служба будет перезапущена при нехватке памяти
     }
 
     override fun onDestroy() {
