@@ -22,12 +22,14 @@ class AppService : Service(), ServiceContract.Service {
     @Inject
     lateinit var controller: ServiceContract.Controller
     private val binder = ServiceBinder()
-    private val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    private val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    private lateinit var connectivityManager: ConnectivityManager
+    private lateinit var telephonyManager: TelephonyManager
     private var listener: GpsListener? = null // presenter
 
     override fun onCreate() {
         super.onCreate()
+        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         App.instance.injector.getServiceComponentInstance(ServiceModule(this)).inject(this)
     }
 
@@ -56,7 +58,7 @@ class AppService : Service(), ServiceContract.Service {
     }
 
     @SuppressLint("MissingPermission")
-    override fun getDeviceImei() = telephonyManager.deviceId
+    override fun getDeviceImei() = telephonyManager.deviceId!!
 
     override fun registerListener(listener: GpsListener){
         this.listener = listener

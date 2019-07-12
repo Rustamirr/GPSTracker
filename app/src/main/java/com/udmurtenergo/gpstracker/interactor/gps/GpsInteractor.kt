@@ -24,7 +24,7 @@ class GpsInteractor(
     private val locationRequest: LocationRequest): GoogleApiClient.ConnectionCallbacks, LocationListener, GpsStatus.Listener {
 
     private val locationManager = App.instance.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-    private lateinit var gpsStatus: GpsStatus
+    private var gpsStatus: GpsStatus? = null
     private val locationSubject = PublishSubject.create<Location>()
     private val gpsStatusSubject = PublishSubject.create<GpsStatus>()
     private lateinit var fullLocationObservable: Observable<FullLocation>
@@ -72,7 +72,7 @@ class GpsInteractor(
             return
         }
         gpsStatus = locationManager.getGpsStatus(gpsStatus)
-        gpsStatusSubject.onNext(gpsStatus)
+        gpsStatusSubject.onNext(gpsStatus!!)
     }
 
     private fun initFullLocationObservable(minAccuracy: Int, minSatellitesCount: Int, minSnr: Int): Observable<FullLocation> {

@@ -1,4 +1,4 @@
-/*package com.udmurtenergo.gpstracker.view.activity_main.settings_fragment
+package com.udmurtenergo.gpstracker.view.activity_main.settings_fragment
 
 import androidx.lifecycle.ViewModel
 import com.udmurtenergo.gpstracker.App
@@ -13,19 +13,19 @@ import javax.inject.Inject
 
 class SettingsFragmentPresenter : ViewModel(), SettingsFragmentContract.Presenter {
     @Inject
-    internal var preferenceInteractor: PreferenceInteractor? = null
+    lateinit var preferenceInteractor: PreferenceInteractor
     private var view: SettingsFragmentContract.View? = null
     private var settings: Settings? = null
-    private var disposable: Disposable? = null
+    private lateinit var disposable: Disposable
 
     init {
-        App.getInstance().getInjector().getMainActivityComponent().inject(this)
+        App.instance.injector.getMainActivityComponentInstance().inject(this)
         loadSettings()
     }
 
     override fun onViewCreated(view: SettingsFragmentContract.View) {
         this.view = view
-        view.setTitle(App.getInstance().getString(R.string.settings))
+        view.setTitle(App.instance.getString(R.string.settings))
         updateView()
     }
 
@@ -34,13 +34,13 @@ class SettingsFragmentPresenter : ViewModel(), SettingsFragmentContract.Presente
     }
 
     override fun onDestroy() {
-        if (!disposable!!.isDisposed) {
-            disposable!!.dispose()
+        if (!disposable.isDisposed) {
+            disposable.dispose()
         }
     }
 
     private fun loadSettings() {
-        disposable = preferenceInteractor!!.load()
+        disposable = preferenceInteractor.load()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result ->
@@ -51,38 +51,24 @@ class SettingsFragmentPresenter : ViewModel(), SettingsFragmentContract.Presente
 
     private fun updateView() {
         if (view != null && settings != null) {
-            view!!.setPreferenceSummary(
-                App.getInstance().getString(R.string.key_gps_update_interval),
-                settings!!.updateInterval.toString() + " (sec)"
-            )
-            view!!.setPreferenceSummary(
-                App.getInstance().getString(R.string.key_smallest_displacement),
-                settings!!.smallestDisplacement.toString() + " (m)"
-            )
-            view!!.setPreferenceSummary(
-                App.getInstance().getString(R.string.key_min_accuracy),
-                settings!!.minAccuracy.toString() + " (m)"
-            )
-            view!!.setPreferenceSummary(
-                App.getInstance().getString(R.string.key_min_satellites_count),
-                settings!!.minSatellitesCount.toString()
-            )
-            view!!.setPreferenceSummary(
-                App.getInstance().getString(R.string.key_min_snr),
-                settings!!.minSnr.toString()
-            )
-            view!!.setPreferenceSummary(
-                App.getInstance().getString(R.string.key_server_ip),
-                settings!!.serverIp
-            )
-            view!!.setPreferenceSummary(
-                App.getInstance().getString(R.string.key_network_update_interval),
-                settings!!.networkUpdateInterval.toString() + " (min)"
-            )
+            view?.setPreferenceSummary(App.instance.getString(R.string.key_gps_update_interval),
+                settings!!.updateInterval.toString() + " (sec)")
+            view?.setPreferenceSummary(App.instance.getString(R.string.key_smallest_displacement),
+                settings!!.smallestDisplacement.toString() + " (m)")
+            view?.setPreferenceSummary(App.instance.getString(R.string.key_min_accuracy),
+                settings!!.minAccuracy.toString() + " (m)")
+            view?.setPreferenceSummary(App.instance.getString(R.string.key_min_satellites_count),
+                settings!!.minSatellitesCount.toString())
+            view?.setPreferenceSummary(App.instance.getString(R.string.key_min_snr),
+                settings!!.minSnr.toString())
+            view?.setPreferenceSummary(App.instance.getString(R.string.key_server_ip),
+                settings!!.serverIp)
+            view?.setPreferenceSummary(App.instance.getString(R.string.key_network_update_interval),
+                settings!!.networkUpdateInterval.toString() + " (min)")
         }
     }
 
     override fun onSharedPreferenceChanged() {
         loadSettings()
     }
-}*/
+}

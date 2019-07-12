@@ -1,7 +1,6 @@
-/*package com.udmurtenergo.gpstracker.view.activity_main.main_fragment
+package com.udmurtenergo.gpstracker.view.activity_main.main_fragment
 
 interface MainFragmentContract {
-
     interface View {
         fun setTitle(title: String)
         fun setSwitchServiceChecked(checked: Boolean)
@@ -12,7 +11,6 @@ interface MainFragmentContract {
         fun showMessage(message: String)
         fun requestPermissions()
     }
-
     interface Presenter {
         fun onViewCreated(view: View)
         fun onStart()
@@ -21,4 +19,4 @@ interface MainFragmentContract {
         fun startStopService()
         fun onRequestPermissionsResult(granted: Boolean)
     }
-}*/
+}

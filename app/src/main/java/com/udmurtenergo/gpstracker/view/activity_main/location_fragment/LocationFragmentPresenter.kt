@@ -1,4 +1,4 @@
-/*package com.udmurtenergo.gpstracker.view.activity_main.location_fragment
+package com.udmurtenergo.gpstracker.view.activity_main.location_fragment
 
 import androidx.lifecycle.ViewModel
 import com.udmurtenergo.gpstracker.App
@@ -13,14 +13,14 @@ import javax.inject.Inject
 
 class LocationFragmentPresenter : ViewModel(), LocationFragmentContract.Presenter {
     @Inject
-    internal var repositoryLocation: RepositoryLocation? = null
+    lateinit var repositoryLocation: RepositoryLocation
     @Inject
-    internal var adapter: LocationAdapter? = null
+    lateinit var adapter: LocationAdapter
     private var view: LocationFragmentContract.View? = null
-    private var disposable: Disposable? = null
+    private lateinit var disposable: Disposable
 
     init {
-        App.getInstance().getInjector().getMainActivityComponent().inject(this)
+        App.instance.injector.getMainActivityComponentInstance().inject(this)
     }
 
     override fun onViewCreated(view: LocationFragmentContract.View) {
@@ -41,29 +41,29 @@ class LocationFragmentPresenter : ViewModel(), LocationFragmentContract.Presente
     }
 
     private fun subscribeToUpdates() {
-        disposable = repositoryLocation!!.getAll()
+        disposable = repositoryLocation.getAll()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { list ->
-                adapter!!.setList(list)
-                adapter!!.notifyDataSetChanged()
+                adapter.setList(list)
+                adapter.notifyDataSetChanged()
                 updateView(list)
             }
     }
 
     private fun unSubscribeToUpdates() {
-        if (!disposable!!.isDisposed) {
-            disposable!!.dispose()
+        if (!disposable.isDisposed) {
+            disposable.dispose()
         }
     }
 
     private fun updateView(list: List<FullLocation>) {
         if (view != null) {
-            var title = App.getInstance().getString(R.string.location)
-            if (list.size > 0) {
+            var title = App.instance.getString(R.string.location)
+            if (list.isNotEmpty()) {
                 title += " (" + list.size + ")"
             }
-            view!!.setTitle(title)
+            view?.setTitle(title)
         }
     }
-}*/
+}

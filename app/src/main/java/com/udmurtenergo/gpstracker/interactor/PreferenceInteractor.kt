@@ -16,13 +16,13 @@ class PreferenceInteractor(private val context: Context) {
             val sh = PreferenceManager.getDefaultSharedPreferences(context)
             val settings = Settings(
                 sh.getBoolean(context.getString(R.string.key_boot_service), false),
-                Integer.valueOf(sh.getString(context.getString(R.string.key_min_snr), "")!!),
-                Integer.valueOf(sh.getString(context.getString(R.string.key_min_accuracy), "")!!),
-                Integer.valueOf(sh.getString(context.getString(R.string.key_min_satellites_count),"")!!),
-                Integer.valueOf(sh.getString(context.getString(R.string.key_gps_update_interval),"")!!),
-                Integer.valueOf(sh.getString(context.getString(R.string.key_smallest_displacement),"")!!),
+                Integer.valueOf(sh.getString(context.getString(R.string.key_min_snr), "0")!!),
+                Integer.valueOf(sh.getString(context.getString(R.string.key_min_accuracy), "0")!!),
+                Integer.valueOf(sh.getString(context.getString(R.string.key_min_satellites_count),"0")!!),
+                Integer.valueOf(sh.getString(context.getString(R.string.key_gps_update_interval),"0")!!),
+                Integer.valueOf(sh.getString(context.getString(R.string.key_smallest_displacement),"0")!!),
                 sh.getString(context.getString(R.string.key_server_ip), "")!!,
-                Integer.valueOf(sh.getString(context.getString(R.string.key_network_update_interval),"")!!)
+                Integer.valueOf(sh.getString(context.getString(R.string.key_network_update_interval),"0")!!)
             )
             settings
         }

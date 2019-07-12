@@ -1,4 +1,4 @@
-/*package com.udmurtenergo.gpstracker.view.activity_main.location_fragment
+package com.udmurtenergo.gpstracker.view.activity_main.location_fragment
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +10,9 @@ import butterknife.ButterKnife
 import com.udmurtenergo.gpstracker.App
 import com.udmurtenergo.gpstracker.R
 import com.udmurtenergo.gpstracker.database.model.FullLocation
-import com.udmurtenergo.gpstracker.database.model.LocationData
-import com.udmurtenergo.gpstracker.database.model.Satellite
-
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.*
+import kotlin.math.roundToInt
 
 class LocationAdapter : RecyclerView.Adapter<LocationAdapter.ViewHolder>() {
     private var list: List<FullLocation>? = null
@@ -34,43 +32,36 @@ class LocationAdapter : RecyclerView.Adapter<LocationAdapter.ViewHolder>() {
         holder.bind(list!![position])
     }
 
-    override fun getItemCount(): Int {
-        var result = 0
-        if (list != null) {
-            result = list!!.size
-        }
-        return result
-    }
+    override fun getItemCount(): Int = list?.size ?: 0
 
-    internal inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         @BindView(R.id.fragment_list_item_text_view)
-        var textView: TextView? = null
+        lateinit var textView: TextView
 
         init {
             ButterKnife.bind(this, view)
         }
 
-        private fun bind(fullLocation: FullLocation) {
+        fun bind(fullLocation: FullLocation) {
             // Location
             val locationData = fullLocation.locationData
-            var text = App.getInstance().getString(R.string.latitude) + ": " + locationData.latitude + "\n" +
-                    App.getInstance().getString(R.string.longitude) + ": " + locationData.longitude + "\n" +
-                    App.getInstance().getString(R.string.date) + ": " + dateFormat.format(locationData.date) + "\n" +
-                    App.getInstance().getString(R.string.speed) + ": " + Math.round(locationData.speed * 3.6) + "\n" +
-                    App.getInstance().getString(R.string.accuracy) + ": " + locationData.accuracy + "\n" +
-                    App.getInstance().getString(R.string.altitude) + ": " + locationData.altitude + "\n" +
-                    App.getInstance().getString(R.string.bearing) + ": " + locationData.bearing + "\n"
+            var text = App.instance.getString(R.string.latitude) + ": " + locationData.latitude + "\n" +
+                    App.instance.getString(R.string.longitude) + ": " + locationData.longitude + "\n" +
+                    App.instance.getString(R.string.date) + ": " + dateFormat.format(locationData.date) + "\n" +
+                    App.instance.getString(R.string.speed) + ": " + (locationData.speed * 3.6).roundToInt() + "\n" +
+                    App.instance.getString(R.string.accuracy) + ": " + locationData.accuracy + "\n" +
+                    App.instance.getString(R.string.altitude) + ": " + locationData.altitude + "\n" +
+                    App.instance.getString(R.string.bearing) + ": " + locationData.bearing + "\n"
 
             // Satellites
-            val satellites = fullLocation.satellites
             val sb = StringBuilder()
-            for ((_, snr) in satellites) {
-                sb.append(snr)
+            fullLocation.satellites.forEach {
+                sb.append(it.snr)
                 sb.append(" | ")
             }
-            text += App.getInstance().getString(R.string.satellites_count) + ": " + satellites.size + "\n" +
-                    App.getInstance().getString(R.string.snr) + ":\n" + sb.toString()
-            textView!!.setText(text)
+            text += App.instance.getString(R.string.satellites_count) + ": " + fullLocation.satellites.size + "\n" +
+                    App.instance.getString(R.string.snr) + ":\n" + sb.toString()
+            textView.setText(text)
         }
     }
-}*/
+}

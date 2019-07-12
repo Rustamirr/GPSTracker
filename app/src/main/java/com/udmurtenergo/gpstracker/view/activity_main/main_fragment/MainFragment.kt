@@ -1,4 +1,4 @@
-/*package com.udmurtenergo.gpstracker.view.activity_main.main_fragment
+package com.udmurtenergo.gpstracker.view.activity_main.main_fragment
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -19,24 +19,32 @@ import com.udmurtenergo.gpstracker.R
 import com.udmurtenergo.gpstracker.view.BaseFragment
 
 class MainFragment : BaseFragment(), MainFragmentContract.View {
+    companion object {
+        private const val PERMISSIONS_REQUEST_CODE = 1
+        private const val LOCATION_TEXT = "LOCATION_TEXT"
+        private const val SATELLITES_TEXT = "SATELLITES_TEXT"
+        private const val FILTERED_LOCATION_TEXT = "FILTERED_LOCATION_TEXT"
+
+        fun newInstance() = MainFragment()
+    }
 
     @BindView(R.id.fragment_main_chronometer)
-    var chronometer: Chronometer? = null
+    lateinit var chronometer: Chronometer
 
     @BindView(R.id.fragment_main_tb_switch_service)
-    var tbSwitchService: ToggleButton? = null
+    lateinit var tbSwitchService: ToggleButton
 
     @BindView(R.id.fragment_main_tv_location)
-    var tvLocation: TextView? = null
+    lateinit var tvLocation: TextView
 
     @BindView(R.id.fragment_main_tv_satellites)
-    var tvSatellites: TextView? = null
+    lateinit var tvSatellites: TextView
 
     @BindView(R.id.fragment_main_tv_filtered_location)
-    var tvFilteredLocation: TextView? = null
+    lateinit var tvFilteredLocation: TextView
 
-    private var unbinder: Unbinder? = null
-    private var presenter: MainFragmentPresenter? = null
+    private lateinit var unbinder: Unbinder
+    private lateinit var presenter: MainFragmentPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,77 +60,77 @@ class MainFragment : BaseFragment(), MainFragmentContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (savedInstanceState != null) {
-            tvLocation!!.text = savedInstanceState.getString(LOCATION_TEXT)
-            tvSatellites!!.text = savedInstanceState.getString(SATELLITES_TEXT)
-            tvFilteredLocation!!.text = savedInstanceState.getString(FILTERED_LOCATION_TEXT)
+            tvLocation.text = savedInstanceState.getString(LOCATION_TEXT)
+            tvSatellites.text = savedInstanceState.getString(SATELLITES_TEXT)
+            tvFilteredLocation.text = savedInstanceState.getString(FILTERED_LOCATION_TEXT)
         }
-        presenter!!.onViewCreated(this)
+        presenter.onViewCreated(this)
     }
 
     /* При повороте toggle button, если  был нажат, нажимается еще раз, чтобы этого избежать
        необходимо подписываться на прослушивание кнопки после восстановления ее нажатого состояния */
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        tbSwitchService!!.setOnCheckedChangeListener { buttonView, isChecked -> presenter!!.startStopService() }
+        tbSwitchService.setOnCheckedChangeListener { buttonView, isChecked ->
+            presenter.startStopService()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(LOCATION_TEXT, tvLocation!!.text.toString())
-        outState.putString(SATELLITES_TEXT, tvSatellites!!.text.toString())
-        outState.putString(FILTERED_LOCATION_TEXT, tvFilteredLocation!!.text.toString())
+        outState.putString(LOCATION_TEXT, tvLocation.text.toString())
+        outState.putString(SATELLITES_TEXT, tvSatellites.text.toString())
+        outState.putString(FILTERED_LOCATION_TEXT, tvFilteredLocation.text.toString())
     }
 
     override fun onStart() {
         super.onStart()
-        presenter!!.onStart()
+        presenter.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        presenter!!.onStop()
+        presenter.onStop()
     }
 
     override fun onDestroyView() {
-        presenter!!.onDestroyView()
-        unbinder!!.unbind()
+        presenter.onDestroyView()
+        unbinder.unbind()
         super.onDestroyView()
     }
 
-
     override fun setTitle(title: String) {
-        if (activity != null) {
-            activity!!.title = title
-        }
+        activity?.title = title
     }
 
     override fun setSwitchServiceChecked(checked: Boolean) {
-        tbSwitchService!!.setOnCheckedChangeListener(null)
-        tbSwitchService!!.isChecked = checked
-        tbSwitchService!!.setOnCheckedChangeListener { buttonView, isChecked -> presenter!!.startStopService() }
+        tbSwitchService.setOnCheckedChangeListener(null)
+        tbSwitchService.isChecked = checked
+        tbSwitchService.setOnCheckedChangeListener { buttonView, isChecked ->
+            presenter.startStopService()
+        }
     }
 
     override fun resetChronometer() {
-        chronometer!!.base = SystemClock.elapsedRealtime()
-        chronometer!!.start()
+        chronometer.base = SystemClock.elapsedRealtime()
+        chronometer.start()
     }
 
     override fun setLocationText(text: String) {
-        tvLocation!!.text = text
+        tvLocation.text = text
     }
 
     override fun setSatellitesText(text: String) {
-        tvSatellites!!.text = text
+        tvSatellites.text = text
     }
 
     override fun setFilteredLocationText(text: String) {
-        tvFilteredLocation!!.text = text
+        tvFilteredLocation.text = text
     }
 
     override fun showMessage(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }
-
 
     override fun requestPermissions() {
         requestPermissions(
@@ -136,20 +144,10 @@ class MainFragment : BaseFragment(), MainFragmentContract.View {
         when (requestCode) {
             PERMISSIONS_REQUEST_CODE -> {
                 if (grantResults.size > 0) {
-                    presenter!!.onRequestPermissionsResult(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
+                    presenter.onRequestPermissionsResult(
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
                 }
             }
         }
     }
-
-    companion object {
-        private val PERMISSIONS_REQUEST_CODE = 1
-        private val LOCATION_TEXT = "LOCATION_TEXT"
-        private val SATELLITES_TEXT = "SATELLITES_TEXT"
-        private val FILTERED_LOCATION_TEXT = "FILTERED_LOCATION_TEXT"
-
-        fun newInstance(): MainFragment {
-            return MainFragment()
-        }
-    }
-}*/
+}
