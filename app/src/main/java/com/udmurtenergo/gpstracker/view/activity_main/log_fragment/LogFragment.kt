@@ -1,4 +1,4 @@
-/*package com.udmurtenergo.gpstracker.view.activity_main.log_fragment
+package com.udmurtenergo.gpstracker.view.activity_main.log_fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,10 +14,14 @@ import com.udmurtenergo.gpstracker.R
 import com.udmurtenergo.gpstracker.view.BaseFragment
 
 class LogFragment : BaseFragment(), LogFragmentContract.View {
+    companion object {
+        fun newInstance() = LogFragment()
+    }
     @BindView(R.id.fragment_list_recycler_view)
-    var recyclerView: RecyclerView? = null
-    private var presenter: LogFragmentContract.Presenter? = null
-    private var unbinder: Unbinder? = null
+    lateinit var recyclerView: RecyclerView
+
+    private lateinit var presenter: LogFragmentContract.Presenter
+    private lateinit var unbinder: Unbinder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,46 +32,37 @@ class LogFragment : BaseFragment(), LogFragmentContract.View {
         super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater.inflate(R.layout.fragment_list, container, false)
         unbinder = ButterKnife.bind(this, view)
-        recyclerView!!.layoutManager = LinearLayoutManager(context)
-        recyclerView!!.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.setHasFixedSize(true)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter!!.onViewCreated(this)
+        presenter.onViewCreated(this)
     }
 
     override fun onStart() {
         super.onStart()
-        presenter!!.onStart()
+        presenter.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        presenter!!.onStop()
+        presenter.onStop()
     }
 
     override fun onDestroyView() {
-        presenter!!.onDestroyView()
-        unbinder!!.unbind()
+        presenter.onDestroyView()
+        unbinder.unbind()
         super.onDestroyView()
     }
 
     override fun setTitle(title: String) {
-        if (activity != null) {
-            activity!!.title = title
-        }
+        activity?.title = title
     }
 
     override fun setAdapter(adapter: LogAdapter) {
-        recyclerView!!.adapter = adapter
+        recyclerView.adapter = adapter
     }
-
-    companion object {
-
-        fun newInstance(): LogFragment {
-            return LogFragment()
-        }
-    }
-}*/
+}

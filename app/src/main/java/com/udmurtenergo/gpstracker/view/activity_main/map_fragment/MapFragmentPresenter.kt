@@ -1,4 +1,4 @@
-/*package com.udmurtenergo.gpstracker.view.activity_main.map_fragment
+package com.udmurtenergo.gpstracker.view.activity_main.map_fragment
 
 import androidx.lifecycle.ViewModel
 import com.udmurtenergo.gpstracker.App
@@ -12,17 +12,17 @@ import javax.inject.Inject
 
 class MapFragmentPresenter : ViewModel(), MapFragmentContract.Presenter {
     @Inject
-    internal var repositoryLocation: RepositoryLocation? = null
+    lateinit var repositoryLocation: RepositoryLocation
     private var view: MapFragmentContract.View? = null
-    private var disposable: Disposable? = null
+    private lateinit var disposable: Disposable
 
     init {
-        App.getInstance().getInjector().getMainActivityComponent().inject(this)
+        App.instance.injector.getMainActivityComponentInstance().inject(this)
     }
 
     override fun onViewCreated(view: MapFragmentContract.View) {
         this.view = view
-        view.setTitle(App.getInstance().getString(R.string.map))
+        view.setTitle(App.instance.getString(R.string.map))
     }
 
     override fun onStart() {
@@ -38,38 +38,34 @@ class MapFragmentPresenter : ViewModel(), MapFragmentContract.Presenter {
     }
 
     private fun subscribeToUpdates() {
-        disposable = repositoryLocation!!.getAll()
+        disposable = repositoryLocation.getAll()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { list ->
-                if (view != null) {
-                    view!!.drawTrack(list)
-                }
-            }
+            .subscribe { list ->  view?.drawTrack(list) }
     }
 
     private fun unSubscribeToUpdates() {
-        if (!disposable!!.isDisposed) {
-            disposable!!.dispose()
+        if (!disposable.isDisposed) {
+            disposable.dispose()
         }
     }
 
     override fun onMapReady() {
         if (view != null) {
-            view!!.setMap(true, false, true, true)
+            val view = view as MapFragmentContract.View
+
+            view.setMap(enableZoomControls = true, enabledTiltGesture = false, enableCompass = true, showCurrentLocationControl = true)
 
             // Check gps permission
-            if (!view!!.gpsPermissionGranted()) {
-                view!!.requestGpsPermission()
+            if (!view.gpsPermissionGranted()) {
+                view.requestGpsPermission()
                 return
             }
-            view!!.setCurrentLocationEnabled(true)
+            view.setCurrentLocationEnabled(true)
         }
     }
 
     override fun onGpsRequestPermissionsResult(granted: Boolean) {
-        if (view != null) {
-            view!!.setCurrentLocationEnabled(granted)
-        }
+        view?.setCurrentLocationEnabled(granted)
     }
-}*/
+}

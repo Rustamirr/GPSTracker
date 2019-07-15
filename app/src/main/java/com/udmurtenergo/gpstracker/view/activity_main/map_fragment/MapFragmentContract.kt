@@ -1,4 +1,4 @@
-/*package com.udmurtenergo.gpstracker.view.activity_main.map_fragment
+package com.udmurtenergo.gpstracker.view.activity_main.map_fragment
 
 import com.udmurtenergo.gpstracker.database.model.FullLocation
 
@@ -8,12 +8,7 @@ interface MapFragmentContract {
         fun setTitle(title: String)
         fun setCurrentLocationEnabled(enabled: Boolean)
         fun drawTrack(list: List<FullLocation>)
-
-        fun setMap(
-            enableZoomControls: Boolean, enabledTiltGesture: Boolean,
-            enableCompass: Boolean, showCurrentLocationControl: Boolean
-        )
-
+        fun setMap(enableZoomControls: Boolean, enabledTiltGesture: Boolean, enableCompass: Boolean, showCurrentLocationControl: Boolean)
         fun gpsPermissionGranted(): Boolean
         fun requestGpsPermission()
     }
@@ -23,8 +18,7 @@ interface MapFragmentContract {
         fun onStart()
         fun onStop()
         fun onDestroyView()
-
         fun onMapReady()
         fun onGpsRequestPermissionsResult(granted: Boolean)
     }
-}*/
+}

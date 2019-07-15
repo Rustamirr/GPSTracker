@@ -1,4 +1,4 @@
-/*package com.udmurtenergo.gpstracker.view.activity_main.map_fragment
+package com.udmurtenergo.gpstracker.view.activity_main.map_fragment
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -16,13 +16,14 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.udmurtenergo.gpstracker.App
 import com.udmurtenergo.gpstracker.database.model.FullLocation
-import com.udmurtenergo.gpstracker.database.model.LocationData
-import com.udmurtenergo.gpstracker.database.model.Satellite
 
 class MapFragment : SupportMapFragment(), MapFragmentContract.View, OnMapReadyCallback {
-
-    var presenter: MapFragmentContract.Presenter
-    private var googleMap: GoogleMap? = null
+    companion object {
+        private const val ACCESS_FINE_LOCATION_REQUEST_CODE = 1
+        fun newInstance() = MapFragment()
+    }
+    private lateinit var presenter: MapFragmentContract.Presenter
+    private lateinit var googleMap: GoogleMap
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
@@ -51,10 +52,7 @@ class MapFragment : SupportMapFragment(), MapFragmentContract.View, OnMapReadyCa
     }
 
     override fun gpsPermissionGranted(): Boolean {
-        return ActivityCompat.checkSelfPermission(
-            App.getInstance(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
+        return ActivityCompat.checkSelfPermission(App.instance, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun requestGpsPermission() {
@@ -65,22 +63,18 @@ class MapFragment : SupportMapFragment(), MapFragmentContract.View, OnMapReadyCa
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             ACCESS_FINE_LOCATION_REQUEST_CODE -> {
-                if (grantResults.size > 0) {
+                if (grantResults.isNotEmpty())
                     presenter.onGpsRequestPermissionsResult(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                }
             }
         }
     }
 
-    override fun setMap(
-        enableZoomControls: Boolean, enabledTiltGesture: Boolean,
-        enableCompass: Boolean, showCurrentLocationControl: Boolean
-    ) {
-        googleMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
-        googleMap!!.uiSettings.isZoomControlsEnabled = enableZoomControls
-        googleMap!!.uiSettings.isTiltGesturesEnabled = enabledTiltGesture
-        googleMap!!.uiSettings.isCompassEnabled = enableCompass
-        googleMap!!.uiSettings.isMyLocationButtonEnabled = showCurrentLocationControl
+    override fun setMap(enableZoomControls: Boolean, enabledTiltGesture: Boolean, enableCompass: Boolean, showCurrentLocationControl: Boolean) {
+        googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+        googleMap.uiSettings.isZoomControlsEnabled = enableZoomControls
+        googleMap.uiSettings.isTiltGesturesEnabled = enabledTiltGesture
+        googleMap.uiSettings.isCompassEnabled = enableCompass
+        googleMap.uiSettings.isMyLocationButtonEnabled = showCurrentLocationControl
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -90,11 +84,11 @@ class MapFragment : SupportMapFragment(), MapFragmentContract.View, OnMapReadyCa
 
     @SuppressLint("MissingPermission")
     override fun setCurrentLocationEnabled(enabled: Boolean) {
-        googleMap!!.isMyLocationEnabled = enabled
+        googleMap.isMyLocationEnabled = enabled
     }
 
     override fun drawTrack(list: List<FullLocation>) {
-        googleMap!!.clear()
+        googleMap.clear()
         val line = PolylineOptions()
         for ((locationData, satellites) in list) {
             val latLng = LatLng(locationData.latitude, locationData.longitude)
@@ -103,7 +97,6 @@ class MapFragment : SupportMapFragment(), MapFragmentContract.View, OnMapReadyCa
             markerOptions.position(latLng)
             markerOptions.title("Accuracy(m): " + locationData.accuracy)
 
-
             val sb = StringBuilder()
             sb.append("SNR:")
             for ((_, snr) in satellites) {
@@ -111,26 +104,16 @@ class MapFragment : SupportMapFragment(), MapFragmentContract.View, OnMapReadyCa
                 sb.append("|")
             }
             markerOptions.snippet(sb.toString())
-            googleMap!!.addMarker(markerOptions)
+            googleMap.addMarker(markerOptions)
         }
         line.width(12f)
         line.color(Color.RED)
         line.geodesic(true)
-        googleMap!!.addPolyline(line)
+        googleMap.addPolyline(line)
     }
 
     override fun setTitle(title: String) {
         super.onStart()
-        if (activity != null) {
-            activity!!.title = title
-        }
+        activity?.title = title
     }
-
-    companion object {
-        private val ACCESS_FINE_LOCATION_REQUEST_CODE = 1
-
-        override fun newInstance(): MapFragment {
-            return MapFragment()
-        }
-    }
-}*/
+}

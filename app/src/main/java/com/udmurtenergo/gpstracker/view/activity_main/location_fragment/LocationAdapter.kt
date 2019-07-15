@@ -22,13 +22,13 @@ class LocationAdapter : RecyclerView.Adapter<LocationAdapter.ViewHolder>() {
         this.list = list
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_list_item, parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: LocationAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(list!![position])
     }
 
@@ -61,7 +61,7 @@ class LocationAdapter : RecyclerView.Adapter<LocationAdapter.ViewHolder>() {
             }
             text += App.instance.getString(R.string.satellites_count) + ": " + fullLocation.satellites.size + "\n" +
                     App.instance.getString(R.string.snr) + ":\n" + sb.toString()
-            textView.setText(text)
+            textView.text = text
         }
     }
 }

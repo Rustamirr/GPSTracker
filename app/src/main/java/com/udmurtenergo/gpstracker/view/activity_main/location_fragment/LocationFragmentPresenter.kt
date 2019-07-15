@@ -58,12 +58,12 @@ class LocationFragmentPresenter : ViewModel(), LocationFragmentContract.Presente
     }
 
     private fun updateView(list: List<FullLocation>) {
-        if (view != null) {
-            var title = App.instance.getString(R.string.location)
-            if (list.isNotEmpty()) {
-                title += " (" + list.size + ")"
-            }
-            view?.setTitle(title)
+        if (view == null) return
+
+        var title = App.instance.getString(R.string.location)
+        if (list.isNotEmpty()) {
+            title += " (" + list.size + ")"
         }
+        view?.setTitle(title)
     }
 }

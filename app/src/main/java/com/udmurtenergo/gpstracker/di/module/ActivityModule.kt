@@ -2,6 +2,7 @@ package com.udmurtenergo.gpstracker.di.module
 
 import com.udmurtenergo.gpstracker.di.ActivityScope
 import com.udmurtenergo.gpstracker.view.activity_main.location_fragment.LocationAdapter
+import com.udmurtenergo.gpstracker.view.activity_main.log_fragment.LogAdapter
 //import com.udmurtenergo.gpstracker.view.activity_main.log_fragment.LogAdapter
 import dagger.Module
 import dagger.Provides
@@ -17,6 +18,6 @@ class ActivityModule {
     @Provides
     fun provideLocationAdapter() = LocationAdapter()
 
-    /*@Provides
-    fun provideLogAdapter() = LogAdapter()*/
+    @Provides
+    fun provideLogAdapter() = LogAdapter()
 }

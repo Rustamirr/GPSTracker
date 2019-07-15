@@ -1,4 +1,4 @@
-/*package com.udmurtenergo.gpstracker.view.activity_main.log_fragment
+package com.udmurtenergo.gpstracker.view.activity_main.log_fragment
 
 import androidx.lifecycle.ViewModel
 import com.udmurtenergo.gpstracker.App
@@ -13,14 +13,14 @@ import javax.inject.Inject
 
 class LogFragmentPresenter : ViewModel(), LogFragmentContract.Presenter {
     @Inject
-    internal var repositoryLog: RepositoryLog? = null
+    lateinit var repositoryLog: RepositoryLog
     @Inject
-    internal var adapter: LogAdapter? = null
+    lateinit var adapter: LogAdapter
     private var view: LogFragmentContract.View? = null
-    private var disposable: Disposable? = null
+    private lateinit var disposable: Disposable
 
     init {
-        App.getInstance().getInjector().getMainActivityComponent().inject(this)
+        App.instance.injector.getMainActivityComponentInstance().inject(this)
     }
 
     override fun onViewCreated(view: LogFragmentContract.View) {
@@ -41,29 +41,29 @@ class LogFragmentPresenter : ViewModel(), LogFragmentContract.Presenter {
     }
 
     private fun subscribeToUpdates() {
-        disposable = repositoryLog!!.getAll()
+        disposable = repositoryLog.getAll()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { list ->
-                adapter!!.setList(list)
-                adapter!!.notifyDataSetChanged()
+                adapter.setList(list)
+                adapter.notifyDataSetChanged()
                 updateView(list)
             }
     }
 
     private fun unSubscribeToUpdates() {
-        if (!disposable!!.isDisposed) {
-            disposable!!.dispose()
+        if (!disposable.isDisposed) {
+            disposable.dispose()
         }
     }
 
     private fun updateView(list: List<LogData>) {
-        if (view != null) {
-            var title = App.getInstance().getString(R.string.log)
-            if (list.size > 0) {
-                title += " (" + list.size + ")"
-            }
-            view!!.setTitle(title)
+        if (view == null) return
+
+        var title = App.instance.getString(R.string.log)
+        if (list.isNotEmpty()) {
+            title += " (" + list.size + ")"
         }
+        view?.setTitle(title)
     }
-}*/
+}

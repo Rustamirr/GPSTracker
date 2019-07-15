@@ -50,7 +50,7 @@ class SettingsFragmentPresenter : ViewModel(), SettingsFragmentContract.Presente
     }
 
     private fun updateView() {
-        if (view != null && settings != null) {
+        if (settings != null) {
             view?.setPreferenceSummary(App.instance.getString(R.string.key_gps_update_interval),
                 settings!!.updateInterval.toString() + " (sec)")
             view?.setPreferenceSummary(App.instance.getString(R.string.key_smallest_displacement),

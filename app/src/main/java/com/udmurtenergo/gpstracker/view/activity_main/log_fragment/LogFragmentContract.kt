@@ -1,4 +1,4 @@
-/*package com.udmurtenergo.gpstracker.view.activity_main.log_fragment
+package com.udmurtenergo.gpstracker.view.activity_main.log_fragment
 
 interface LogFragmentContract {
 
@@ -13,4 +13,4 @@ interface LogFragmentContract {
         fun onStop()
         fun onDestroyView()
     }
-}*/
+}
