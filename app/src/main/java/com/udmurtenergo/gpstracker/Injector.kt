@@ -11,7 +11,7 @@ import com.udmurtenergo.gpstracker.di.module.ServiceModule
 class Injector(app: App){
     private val databaseName = "GpsTracker"
     val appComponent: AppComponent
-    var mainActivityComponent: MainActivityComponent? = null
+    private var mainActivityComponent: MainActivityComponent? = null
 
     init {
         appComponent = DaggerAppComponent.builder()
