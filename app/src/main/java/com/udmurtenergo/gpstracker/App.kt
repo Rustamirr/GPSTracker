@@ -16,4 +16,5 @@ class App : Application() {
         instance = this
         injector = Injector(this)
     }
+    // Develop changed
 }
